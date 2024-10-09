@@ -1,13 +1,14 @@
 ### API to Landing
 
-#### ![image](https://github.com/user-attachments/assets/d00bd016-792b-4d68-a7ee-17474beebb95)
+#### 
+![image](https://github.com/user-attachments/assets/d00bd016-792b-4d68-a7ee-17474beebb95)
 
 
 ### Landing to Bronze
 
 
-
-
+####
+![image](https://github.com/user-attachments/assets/4f8685ec-1816-454a-a1cc-3d07d41b4525)
 
 
 
