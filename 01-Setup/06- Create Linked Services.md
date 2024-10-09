@@ -1,5 +1,7 @@
 
 
+### for Data Lake connection via managed identity
+![image](https://github.com/user-attachments/assets/1a8b20c0-105b-4f32-ba54-a9f9ce55bb7a)
 
 
 
