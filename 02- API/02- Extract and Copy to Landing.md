@@ -58,7 +58,7 @@ os.makedirs(Landing_path, exist_ok=True)
 for name, url in endpoints.items():
     data_key, item_key = key_mapping.get(name, (None, None))
     latest_data = fetch_latest_data(url, data_key, item_key)
-    file_path = os.path.join(Landing_path, f"{name}_latest_data.json")
+    file_path = os.path.join(Landing_path, f"{name}.json")
     with open(file_path, 'w') as f:
         json.dump(latest_data, f, indent=2)
     print(f"{name.capitalize()} latest data saved to {file_path}")
