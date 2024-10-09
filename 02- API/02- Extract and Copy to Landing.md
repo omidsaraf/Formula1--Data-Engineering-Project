@@ -1,4 +1,4 @@
-
+````python
 import requests
 import json
 import os
@@ -65,6 +65,6 @@ for name, url in endpoints.items():
 
     # Display the data
     print(json.dumps(latest_data, indent=2))
-
+````
 
 ![image](https://github.com/user-attachments/assets/bc1353a8-4f30-4fc7-8ba4-09be4cd5ebb5)
