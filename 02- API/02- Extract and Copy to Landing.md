@@ -67,4 +67,5 @@ for name, url in endpoints.items():
     print(json.dumps(latest_data, indent=2))
 ````
 
-![image](https://github.com/user-attachments/assets/bc1353a8-4f30-4fc7-8ba4-09be4cd5ebb5)
+![image](https://github.com/user-attachments/assets/e263e8de-d475-488f-be56-7ed3e2bfcd8e)
+
