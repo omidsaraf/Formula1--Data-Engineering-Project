@@ -88,3 +88,6 @@ merged_data.display()
 ````
 ![image](https://github.com/user-attachments/assets/74458df3-9481-4c7f-a813-73fb16432ad5)
 
+![image](https://github.com/user-attachments/assets/7674625f-6209-4892-823b-a350858a569a)
+
+
