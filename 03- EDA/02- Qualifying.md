@@ -40,3 +40,15 @@ qualifying_bronze.display()
 `````
 ![image](https://github.com/user-attachments/assets/12e6de7e-fbfd-4dc7-8b5d-cbcb8c8def89)
 
+````python
+qualifying_schema = StructType([
+    StructField("constructorId", IntegerType(), False),
+    StructField("driverId", IntegerType(), False),
+    StructField("number", IntegerType(), True),
+    StructField("position", IntegerType(), True),
+    StructField("q1", StringType(), True),
+    StructField("q2", StringType(), True),
+    StructField("q3", StringType(), True),
+    StructField("qualifyId", IntegerType(), True),
+    StructField("raceId", IntegerType(), False)
+])
