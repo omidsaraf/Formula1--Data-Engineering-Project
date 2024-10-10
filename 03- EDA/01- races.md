@@ -24,3 +24,16 @@ races_flat_df = races_df.select(
 races_flat_df.show(truncate=False)
 ````
 ![image](https://github.com/user-attachments/assets/e6664192-2161-49b1-9d6d-9aa6b4d6a75b)
+
+#### Schema
+````python
+races_schema=StructType([
+    StructField("raceId", IntegerType(), False),
+    StructField("year", IntegerType(), True),
+    StructField("round", IntegerType(), True),
+    StructField("circuitId", IntegerType(), False),
+    StructField("name", StringType(), True),
+    StructField("date", DateType(), True),
+    StructField("time", StringType(), True),
+    StructField("url", StringType(), True)
+])
