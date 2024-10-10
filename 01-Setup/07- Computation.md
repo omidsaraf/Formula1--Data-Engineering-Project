@@ -1,4 +1,4 @@
-### Job Cluster
+### Job Cluster (Best Option)
 
 ![image](https://github.com/user-attachments/assets/a2cb8ae8-620a-43f0-ad2b-ddb8024d2274)
 
@@ -9,4 +9,5 @@
 
 ![image](https://github.com/user-attachments/assets/8f387bd0-858f-49d0-94c0-c7b40fc98e89)
 
-
+### Single node Cluster (Optional)
+![image](https://github.com/user-attachments/assets/031dcd4b-020d-414d-bc67-67c060ebeaab)
