@@ -28,9 +28,8 @@ constructors_bronze.display()
 
 `````python
 constructors_schema= StructType([
-    StructField("constructorId", IntegerType(), False),
-    StructField("constructorRef", StringType(), True),
     StructField("name", StringType(), True),
     StructField("nationality", StringType(), True),
-    StructField("url", StringType(), True)
-])
+    StructField("url", StringType(), True),
+    StructField("ingestion_date", TimestampType(), True)
+    ])
