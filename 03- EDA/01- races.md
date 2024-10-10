@@ -9,7 +9,7 @@ df = spark.read.json(races_path, multiLine=True)
 races_df = df.select(explode(col("MRData.RaceTable.Races")).alias("race"))
 
 # Extract required fields and add raceId
-races_flat_df = races_df.select(
+races_bronze = races_df.select(
     monotonically_increasing_id().cast(IntegerType()).alias("raceId"),  # Generate unique raceId
     col("race.season").cast(IntegerType()).alias("year"),
     col("race.round").cast(IntegerType()).alias("round"),
@@ -21,7 +21,7 @@ races_flat_df = races_df.select(
 )
 
 # Display the transformed DataFrame
-races_flat_df.show(truncate=False)
+races_bronze.display()
 ````
 ![image](https://github.com/user-attachments/assets/e6664192-2161-49b1-9d6d-9aa6b4d6a75b)
 
