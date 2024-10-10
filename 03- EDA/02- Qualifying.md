@@ -51,5 +51,4 @@ qualifying_schema = StructType([
     StructField("q3", StringType(), True),
     StructField("DriverName", StringType(), True),
     StructField("race_Id", IntegerType(), True),
-    StructField("ingestion_date", TimestampType(), True)
     ])
