@@ -109,9 +109,6 @@ merged_data.display()
 
 ````
 
-![image](https://github.com/user-attachments/assets/dfc7e5cf-528b-49ce-9f83-88eed9be4dcc)
-
-
 ![image](https://github.com/user-attachments/assets/7ee0e263-f463-4d0a-a737-96fae5c363df)
 
 
