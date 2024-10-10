@@ -10,4 +10,5 @@
 ![image](https://github.com/user-attachments/assets/8f387bd0-858f-49d0-94c0-c7b40fc98e89)
 
 ### Single node Cluster (Optional)
-![image](https://github.com/user-attachments/assets/031dcd4b-020d-414d-bc67-67c060ebeaab)
+![image](https://github.com/user-attachments/assets/41981af8-1146-42fd-9ee2-fb9fa29fc28a)
+
