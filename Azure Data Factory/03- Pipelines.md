@@ -13,7 +13,15 @@
 
 
 ```` json
-[{"id":1,"file":"circuits.json"},{"id":2,"file":"constructors.json"},{"id":3,"file":"drivers.json},{"id":4,"file":"qualifying.json"},{"id":5,"file":"races.json"},{"id":6,"file":"results.json"}]
+[
+    {"id": 1, "file": "circuits.json"},
+    {"id": 2, "file": "constructors.json"},
+    {"id": 3, "file": "drivers.json"},
+    {"id": 4, "file": "qualifying.json"},
+    {"id": 5, "file": "races.json"},
+    {"id": 6, "file": "results.json"}
+]
+
 ````
 
 ![image](https://github.com/user-attachments/assets/4b96467e-a78f-4596-85df-72747cb0cfa0)
