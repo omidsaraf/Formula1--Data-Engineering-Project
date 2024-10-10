@@ -8,10 +8,7 @@
 
 ### Landing to Bronze
 
-
-####
-![image](https://github.com/user-attachments/assets/4f8685ec-1816-454a-a1cc-3d07d41b4525)
-
+![image](https://github.com/user-attachments/assets/caa7c77a-232d-4fad-83f7-b7599f9659f0)
 
 
 ```` json
