@@ -4,7 +4,7 @@ import json
 import os
 
 # Define the landing zone path
-Landing_path = '/dbfs/mnt/dldatabricks/01-landing'
+Landing_path = '/dbfs/mnt/dldatabricks/00-landing'
 
 def fetch_data(url):
     response = requests.get(url)
