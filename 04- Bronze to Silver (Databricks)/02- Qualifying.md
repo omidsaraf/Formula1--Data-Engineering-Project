@@ -37,17 +37,27 @@ qualifying_bronze = qualifying_df.select(
     monotonically_increasing_id().cast(IntegerType()).alias("race_Id")  # Generate unique raceId
 )
 
+qualifying_bronze=qualifying_bronze.withColumn("ingestion_date", current_timestamp())
+
 # Write the DataFrame in Delta format to the destination
 qualifying_bronze.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/02-silver/qualifying")
+
+qualifying_silver=spark.read.format("delta").load("/mnt/dldatabricks/02-silver/qualifying")
+display(qualifying_silver)
+
 ````
-![image](https://github.com/user-attachments/assets/a820f86b-20f7-4dc9-9f9c-4ab4d64be16c)
+![image](https://github.com/user-attachments/assets/4a1b9dcb-7f44-47d9-81b3-35f7359d8a0a)
+
 
 
 
 ### Incremantal Load
 ````python
+#qualifying
+
 from delta.tables import DeltaTable
-from pyspark.sql.functions import col, explode, lit, monotonically_increasing_id, concat_ws
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
 
 # Load the existing Delta table
 delta_table = DeltaTable.forPath(spark, "/mnt/dldatabricks/02-silver/qualifying")
@@ -81,6 +91,8 @@ qualifying_incremental = qualifying_df_new.select(
     monotonically_increasing_id().cast(IntegerType()).alias("race_Id")  # Generate unique raceId
 )
 
+qualifying_incremental=qualifying_incremental.withColumn("ingestion_date", current_timestamp())
+
 # Perform the merge (upsert) operation
 delta_table.alias("existing") \
     .merge(
@@ -94,6 +106,7 @@ delta_table.alias("existing") \
 # Display the merged data
 merged_data = spark.read.format("delta").load("/mnt/dldatabricks/02-silver/qualifying")
 merged_data.display()
+
 ````
 
 ![image](https://github.com/user-attachments/assets/dfc7e5cf-528b-49ce-9f83-88eed9be4dcc)
