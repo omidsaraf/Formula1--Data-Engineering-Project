@@ -132,8 +132,9 @@ delta_table.alias("existing") \
 # Display the merged data
 merged_data = spark.read.format("delta").load("/mnt/dldatabricks/02-silver/results")
 merged_data.display()
-
+````
 ![image](https://github.com/user-attachments/assets/74899bac-f85f-4cdc-9bb0-2ed50e729c2c)
+
 ````
 season	round	raceName	raceDate	raceTime	driver_number	position	points	driver_fullName	dob	nationality	constructor_name	grid_position	laps	status	time	fastest_LapRank	fastest_LapNumber	fastest_LapTime	average_Speed	ingestion_date
 2024	1	Bahrain Grand Prix	2024-03-02	15:00:00Z	1	1	26	Max Verstappen	1997-09-30	Dutch	Red Bull	1	57	Finished	1:31:44.742	1	39	1:32.608	210.383	2024-10-11T02:27:23.745+00:00
