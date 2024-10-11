@@ -45,14 +45,11 @@ results_bronze = results_df.select(
     col("result.FastestLap.Time.time").alias("fastestLapTime"),
     col("result.FastestLap.AverageSpeed.speed").cast(DoubleType()).alias("averageSpeed")
 )
-results_bronze = results_bronze.withColumn("ingestion_date", current_timestamp())
-
-
 
 display(results_bronze)
 ````
-````table
-season	round	raceName	raceDate	raceTime	driver_number	position	points	driver_FullName	dob	nationality	constructor_name	grid_Position	laps	status	time	fastestLapRank	fastestLapNumber	fastestLapTime	averageSpeed	ingestion_date
+````pandas
+season	round	raceName	raceDate	raceTime	driver_number	position	points	driver_FullName	dob	nationality	constructor_name	grid_Position	laps	status	time	fastestLapRank	fastestLapNumber	fastestLapTime	averageSpeed	
 2024	1	Bahrain Grand Prix	2024-03-02	15:00:00Z	1	1	26	Max Verstappen	1997-09-30	Dutch	Red Bull	1	57	Finished	1:31:44.742	1	39	1:32.608	210.383	2024-10-11T01:53:00.716+00:00
 2024	1	Bahrain Grand Prix	2024-03-02	15:00:00Z	11	2	18	Sergio Pérez	1990-01-26	Mexican	Red Bull	5	57	Finished	+22.457	4	40	1:34.364	206.468	2024-10-11T01:53:00.716+00:00
 2024	1	Bahrain Grand Prix	2024-03-02	15:00:00Z	55	3	15	Carlos Sainz	1994-09-01	Spanish	Ferrari	4	57	Finished	+25.110	6	44	1:34.507	206.156	2024-10-11T01:53:00.716+00:00
