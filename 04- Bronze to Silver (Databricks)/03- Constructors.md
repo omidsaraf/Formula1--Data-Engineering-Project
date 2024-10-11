@@ -36,6 +36,8 @@ constructors_bronze = constructors_bronze.filter(col("row_num") == 1).drop("row_
 constructors_bronze.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/02-silver/constructors")
 ````
 ![image](https://github.com/user-attachments/assets/a62915e0-5959-4942-a465-dc244ed8faba)
+![image](https://github.com/user-attachments/assets/60290737-2f5e-4187-8257-f092fd244517)
+
 
 ### Incremental Load
 ````python
