@@ -26,3 +26,5 @@ circuits_bronze.display()
 
 `````
 ![image](https://github.com/user-attachments/assets/70f1fae6-4804-4214-a25d-53f91b521886)
+
+![image](https://github.com/user-attachments/assets/4c47cccf-a488-4bd7-96c2-83728d17a02d)
