@@ -24,12 +24,12 @@ constructors_bronze= constructors_bronze.withColumn("ingestion_date", current_ti
 # Display the transformed DataFrame
 constructors_bronze.display()
 ````
-![image](https://github.com/user-attachments/assets/75cd1275-d360-4690-b719-8f2c47a90797)
+![image](https://github.com/user-attachments/assets/1eb9d52c-abd7-4ec4-b216-c1beac420757)
+
 
 `````python
 constructors_schema= StructType([
     StructField("name", StringType(), True),
     StructField("nationality", StringType(), True),
-    StructField("url", StringType(), True),
-    StructField("ingestion_date", TimestampType(), True)
+    StructField("url", StringType(), True)
     ])
