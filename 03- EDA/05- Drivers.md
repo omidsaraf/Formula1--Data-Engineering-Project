@@ -33,10 +33,12 @@ display(drivers_bronze)
 
 ````python
 drivers_schema=StructType([
-    StructField("driver_Id", StringType(), True),
-    StructField("givenName", StringType(), True),
-    StructField("familyName", StringType(), True),
+    StructField("driverId", IntegerType(), False),
+    StructField("name", StructType([
+        StructField("givenName", StringType(), True),
+        StructField("familyName", StringType(), True)
+    ]), True),
     StructField("dob", StringType(), True),
     StructField("nationality", StringType(), True),
     StructField("url", StringType(), True)
-    ])
+])
