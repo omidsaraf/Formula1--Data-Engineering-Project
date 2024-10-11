@@ -4,20 +4,20 @@
 http://ergast.com/api/f1
 
 ## extracting files:
-    qualifying:
+   - qualifying:
       http://ergast.com/api/f1/current/qualifying.json
     
-    circuits:
+   - circuits:
        http://ergast.com/api/f1/circuits.json
     
-    constructors:
+   - constructors:
        http://ergast.com/api/f1/constructors.json
     
-    drivers: 
+   - drivers: 
       http://ergast.com/api/f1/drivers.json
     
-    races:
+   - races:
       http://ergast.com/api/f1/current/races.json
       
-    results: 
+   - results: 
       https://ergast.com/api/f1/current/results.json
