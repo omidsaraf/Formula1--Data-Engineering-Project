@@ -97,7 +97,7 @@ delta_table.alias("existing") \
 # Display the merged data
 merged_data = spark.read.format("delta").load("/mnt/dldatabricks/02-silver/circuits")
 merged_data.display()
-```
+````
 ![image](https://github.com/user-attachments/assets/c0a45ed4-33f7-41a0-9e92-e5a99657c771)
 
 ![image](https://github.com/user-attachments/assets/1fe98648-9cf1-414b-aa76-cdb632836c45)
