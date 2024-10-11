@@ -48,8 +48,6 @@ results_bronze = results_df.select(
 results_bronze = results_bronze.withColumn("ingestion_date", current_timestamp())
 
 
-#results_bronze.write.partitionBy("season", "round").mode("overwrite").save("/mnt/dldatabricks/01-bronze/results")
-
 
 display(results_bronze)
 ````
