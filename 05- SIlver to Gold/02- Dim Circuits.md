@@ -1,4 +1,34 @@
 
+
+The circuits file has columns that are static and unchanging, like the circuit IDs and their geographical information, which means they fit into SCD Type 0 (Fixed).
+
+Circuits Dimension:
+CircuitID: Static, does not change.
+
+CircuitName: Typically static unless there's a renaming which is rare.
+
+Location: Static as it's geographical information.
+
+Country: Static.
+
+Lat: Static.
+
+Lng: Static.
+
+Ingestion_date: Metadata for when the data was loaded.
+
+Given these characteristics, they fit best under SCD Type 0 as this data is not expected to change over time.
+
+SCD Types Recap:
+SCD Type 0 (Fixed): Data that does not change over time (e.g., circuit IDs and geographic data).
+
+SCD Type 1 (Overwrite): Simple updates to data without maintaining history (e.g., updating circuit names).
+
+SCD Type 2 (Versioning): Tracks historical changes using version numbers or effective dates (e.g., tracking changes in circuit names over time).
+
+SCD Type 3 (Alternate Columns): Tracks historical changes using additional columns (e.g., keeping previous and current circuit names).
+
+
 ```python
 # Define the path to your Silver Layer data
 Path_Circuits = "/mnt/dldatabricks/02-silver/circuits/"
