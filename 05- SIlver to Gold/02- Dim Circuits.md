@@ -11,7 +11,6 @@
 - **country**: string (Static)
 - **lat**: double (Latitude, static geographical information)
 - **lng**: double (Longitude, static geographical information)
-- **ingestion_date**: timestamp (Metadata for when the data was loaded)
 
 ### Reasoning:
 - **Static Nature**: The data represents fixed geographical information and identifiers that do not change over time.
