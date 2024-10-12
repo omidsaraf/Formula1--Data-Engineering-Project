@@ -9,4 +9,10 @@
 
 ### Silver Zone
 ---
-![image](https://github.com/user-attachments/assets/455b7c6b-9001-42da-8169-7ba85839d1e1)
+![image](https://github.com/user-attachments/assets/a6c5200d-2e99-4f62-968f-20bdc7f18c5f)
+
+![image](https://github.com/user-attachments/assets/c142dfb9-eb68-4aed-adbe-4ccb74eafc96)
+
+![image](https://github.com/user-attachments/assets/d580f723-e495-471f-bdbd-6ac49b52eace)
+
+![image](https://github.com/user-attachments/assets/eee7bd64-e5e4-4765-81b6-159c90df259e)
