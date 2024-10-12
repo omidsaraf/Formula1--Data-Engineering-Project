@@ -1,9 +1,21 @@
 
 ## Fact_Races Table Analysis
 
-### SCD Type: 1 (Overwrite)
+- **Explanation:**
+Duplicates Handling: Removes any duplicate records.
 
-**Fact_Races** is best categorized under **SCD Type 1 (Overwrite)**. Since race details might get updated (e.g., race names, timestamps), but historical changes are not essential, we can use SCD Type 1 for simplicity.
+-Null Handling: Fills null values with default values for demonstration purposes (data scientists should determine appropriate values).
+
+-Key Lookup: Reads the Dim_circuits table from the Gold Layer and performs a left join to add the circuit_sk foreign key.
+
+-Column Renaming: Renames name to race_name for clarity.
+
+-Removing Redundant Columns: Removes the business key circuit_id from the fact table.
+
+-Saving Data: Writes the transformed data into the Gold Layer as Delta format, partitioned by race_year.
+
+-**Incremental Load:**
+For the incremental load, the best approach would be to use the merge (upsert) operation. This ensures that the existing records are updated, and new records are inserted without data loss.
 
 ### Columns:
 - **race_id**: integer
