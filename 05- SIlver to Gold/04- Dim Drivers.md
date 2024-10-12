@@ -56,6 +56,7 @@ display(Dim_Drivers)
 
 #Write to Gold Layer
 Dim_Drivers.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/03-gold/Dim_Drivers")
-![image](https://github.com/user-attachments/assets/0bc9ea1c-305d-4c3b-b4a5-bab883c4676e)
+![image](https://github.com/user-attachments/assets/11ee96e6-84a0-4421-bf2d-d7b4bb373796)
+
 ![image](https://github.com/user-attachments/assets/e9c6b3e9-d8cf-45dd-92f2-2ec41a1163f4)
 
