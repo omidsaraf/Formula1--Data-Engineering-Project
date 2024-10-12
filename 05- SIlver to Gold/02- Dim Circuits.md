@@ -62,12 +62,12 @@ Dim_Circuits = Modified_df \
 
 
 display(Dim_Circuits)
-````
-![image](https://github.com/user-attachments/assets/ab3852df-fde7-4046-b399-8a2986554f62)
 
-````python
 #Write to Gold Layer
 Dim_Circuits.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/03-gold/Dim_Circuits")
 ````
+
+![image](https://github.com/user-attachments/assets/74dce821-4216-493e-ba71-5558a29978d5)
+
 ![image](https://github.com/user-attachments/assets/92195396-b28b-4d28-8cca-56532a75815a)
 
