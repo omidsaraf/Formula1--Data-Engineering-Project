@@ -18,7 +18,7 @@
 - **No History Tracking Required**: There is no need to track changes or maintain versions for the circuits data.
 - **Simple ETL**: Using SCD Type 0 simplifies the ETL process as we can overwrite the data without worrying about historical changes.
 
-### ETL Process for Circuits Data:
+### ETL Process for Circuits Data - Only Full Load:
 
 ```python
 # Define the path to your Silver Layer data
