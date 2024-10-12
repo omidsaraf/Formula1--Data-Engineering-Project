@@ -8,60 +8,12 @@
 - **name**: string (Constructor name, subject to occasional updates)
 - **nationality**: string (Nationality of the constructor, subject to occasional updates)
 - **url**: string (Reference URL, subject to occasional updates)
-- **ingestion_date**: timestamp (Metadata for when the data was loaded)
 
 ### Reasoning:
-- **Occasional Updates**: Constructor names, nationality, and URLs may need updates without maintaining a full history of changes.
+- **Occasional Updates**: Constructor names, nationality may need updates without maintaining a full history of changes.
 - **Simplified ETL**: Using SCD Type 1 simplifies the ETL process as it overwrites the existing data with the latest updates.
 
-### ETL Process for Constructors Data:
-```python
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, lit, when, count, row_number
-from pyspark.sql.window import Window
-
-# Create a Spark session
-spark = SparkSession.builder \
-    .appName("Read Constructors Data") \
-    .getOrCreate()
-
-# Define the path to your Silver Layer data
-Path_Constructors = "/mnt/dldatabricks/02-silver/constructors/"
-
-# Read the Delta table into a DataFrame
-Constructors_df = spark.read.format("delta").load(Path_Constructors)
-Constructors_df = Constructors_df.drop('ingestion_date')
-
-# Shows count of duplications
-duplicates = Constructors_df.count() - Constructors_df.dropDuplicates().count()
-print(f"Duplicates: {duplicates}")
-
-# Duplicate Handling
-Constructors_df = Constructors_df.dropDuplicates()
-
-# Shows count of nulls
-nulls = Constructors_df.select([count(when(col(c).isNull(), c)).alias(c) for c in Constructors_df.columns]).toPandas()
-print(f"Nulls: {nulls}")
-
-# Null Handling
-nullif_df = Constructors_df.withColumn("name", when(col("name") != "", col("name")).otherwise(None))
-nullif_df = nullif_df.withColumn("nationality", when(col("nationality") != "", col("nationality")).otherwise(None))
-
-# Create surrogate key with identity key and order by name
-window_spec = Window.orderBy("name")
-Modified_df = nullif_df.withColumn("constructor_sk", row_number().over(window_spec))
-
-# Rename Columns
-Dim_Constructors = Modified_df \
-    .withColumnRenamed("name", "constructor_name") \
-    .select("constructor_sk", "constructor_name", "nationality")
-
-# Display the final DataFrame
-Dim_Constructors.show(truncate=False)
-
-# Write to Gold Layer
-Dim_Constructors.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/03-gold/Dim_Constructors")
-
+### ETL Process for Constructors Data - Full Load
 
 ````python
 # Constructors
