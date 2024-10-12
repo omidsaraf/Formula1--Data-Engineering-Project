@@ -57,6 +57,7 @@ display(Dim_Constructors )
 #Write to Gold Layer
 Dim_Constructors .write.format("delta").mode("overwrite").save("/mnt/dldatabricks/03-gold/Dim_Constructors")
 `````
-![image](https://github.com/user-attachments/assets/6d641ad6-a8ff-42eb-955d-c119429abb3a)
+![image](https://github.com/user-attachments/assets/fcc2b43c-3073-4545-a278-8c8b55a812fa)
+
 ![image](https://github.com/user-attachments/assets/25d3e3d7-47fc-41a4-8014-27ab239e3a4c)
 
