@@ -1,6 +1,7 @@
 ### Landing Zone
 ---
-![image](https://github.com/user-attachments/assets/1c1c1279-8e1c-4ff5-8fa1-ac70ed8bee79)
+![image](https://github.com/user-attachments/assets/52764541-43c8-487d-acdb-6d50526d55d2)
+
 
 ### Bronze Zone
 ---
