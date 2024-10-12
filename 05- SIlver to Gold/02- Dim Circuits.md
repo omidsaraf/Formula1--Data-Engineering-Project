@@ -1,32 +1,75 @@
+## Circuits Dimension Analysis
 
+### SCD Type: 0 (Fixed)
 
-The circuits file has columns that are static and unchanging, like the circuit IDs and their geographical information, which means they fit into SCD Type 0 (Fixed).
+**Circuits Dimension** is categorized under **SCD Type 0 (Fixed)** because the data within this table is static and does not change over time. Below are the columns and the reasoning:
 
-Circuits Dimension:
-CircuitID: Static, does not change.
+### Columns:
+- **circuitID**: string (Static, unique identifier for the circuit)
+- **circuitName**: string (Typically static unless renamed, which is rare)
+- **location**: string (Geographical information, static)
+- **country**: string (Static)
+- **lat**: double (Latitude, static geographical information)
+- **lng**: double (Longitude, static geographical information)
+- **ingestion_date**: timestamp (Metadata for when the data was loaded)
 
-CircuitName: Typically static unless there's a renaming which is rare.
+### Reasoning:
+- **Static Nature**: The data represents fixed geographical information and identifiers that do not change over time.
+- **No History Tracking Required**: There is no need to track changes or maintain versions for the circuits data.
+- **Simple ETL**: Using SCD Type 0 simplifies the ETL process as we can overwrite the data without worrying about historical changes.
 
-Location: Static as it's geographical information.
+### ETL Process for Circuits Data:
+```python
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import col, lit, when, count, row_number
+from pyspark.sql.window import Window
 
-Country: Static.
+# Create a Spark session
+spark = SparkSession.builder \
+    .appName("Read Circuits Data") \
+    .getOrCreate()
 
-Lat: Static.
+# Define the path to your Silver Layer data
+Path_Circuits = "/mnt/dldatabricks/02-silver/circuits/"
 
-Lng: Static.
+# Read the Delta table into a DataFrame
+circuits_df = spark.read.format("delta").load(Path_Circuits)
+circuits_df = circuits_df.drop('ingestion_date')
 
-Ingestion_date: Metadata for when the data was loaded.
+# Shows count of duplications
+duplicates = circuits_df.count() - circuits_df.dropDuplicates().count()
+print(f"Duplicates: {duplicates}")
 
-Given these characteristics, they fit best under SCD Type 0 as this data is not expected to change over time.
+# Duplicate Handling
+circuits_df = circuits_df.dropDuplicates()
 
-SCD Types Recap:
-SCD Type 0 (Fixed): Data that does not change over time (e.g., circuit IDs and geographic data).
+# Shows count of nulls
+nulls = circuits_df.select([count(when(col(c).isNull(), c)).alias(c) for c in circuits_df.columns]).toPandas()
+print(nulls)
 
-SCD Type 1 (Overwrite): Simple updates to data without maintaining history (e.g., updating circuit names).
+# Null Handling
+nullif_df = circuits_df.withColumn("lat", when(col("lat") != 0, col("lat")).otherwise(None))
+nullif_df = nullif_df.withColumn("lng", when(col("lng") != 0, col("lng")).otherwise(None))
+nullif_df = nullif_df.withColumn("location", when(col("location") != "", col("location")).otherwise(None))
+nullif_df = nullif_df.withColumn("circuitName", when(col("circuitName") != "", col("circuitName")).otherwise(None))
+nullif_df = nullif_df.withColumn("country", when(col("country") != "", col("country")).otherwise(None))
 
-SCD Type 2 (Versioning): Tracks historical changes using version numbers or effective dates (e.g., tracking changes in circuit names over time).
+# Rename Columns
+circuits_gold = nullif_df \
+    .withColumnRenamed("circuitID", "circuit_id") \
+    .withColumnRenamed("lat", "latitude") \
+    .withColumnRenamed("lng", "longitude") \
+    .withColumnRenamed("circuitName", "circuit_name")
 
-SCD Type 3 (Alternate Columns): Tracks historical changes using additional columns (e.g., keeping previous and current circuit names).
+# Create surrogate key with identity key and order by circuit_id
+window_spec = Window.orderBy("circuit_id")
+circuits_gold = circuits_gold.withColumn("circuit_sk", row_number().over(window_spec))
+
+# Display the final DataFrame
+circuits_gold.show(truncate=False)
+
+# Save the DataFrame in Delta format to the destination
+circuits_gold.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/03-gold/circuits")
 
 
 ```python
