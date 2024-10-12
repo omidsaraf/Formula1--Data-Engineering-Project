@@ -19,58 +19,6 @@
 - **Simple ETL**: Using SCD Type 0 simplifies the ETL process as we can overwrite the data without worrying about historical changes.
 
 ### ETL Process for Circuits Data:
-```python
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, lit, when, count, row_number
-from pyspark.sql.window import Window
-
-# Create a Spark session
-spark = SparkSession.builder \
-    .appName("Read Circuits Data") \
-    .getOrCreate()
-
-# Define the path to your Silver Layer data
-Path_Circuits = "/mnt/dldatabricks/02-silver/circuits/"
-
-# Read the Delta table into a DataFrame
-circuits_df = spark.read.format("delta").load(Path_Circuits)
-circuits_df = circuits_df.drop('ingestion_date')
-
-# Shows count of duplications
-duplicates = circuits_df.count() - circuits_df.dropDuplicates().count()
-print(f"Duplicates: {duplicates}")
-
-# Duplicate Handling
-circuits_df = circuits_df.dropDuplicates()
-
-# Shows count of nulls
-nulls = circuits_df.select([count(when(col(c).isNull(), c)).alias(c) for c in circuits_df.columns]).toPandas()
-print(nulls)
-
-# Null Handling
-nullif_df = circuits_df.withColumn("lat", when(col("lat") != 0, col("lat")).otherwise(None))
-nullif_df = nullif_df.withColumn("lng", when(col("lng") != 0, col("lng")).otherwise(None))
-nullif_df = nullif_df.withColumn("location", when(col("location") != "", col("location")).otherwise(None))
-nullif_df = nullif_df.withColumn("circuitName", when(col("circuitName") != "", col("circuitName")).otherwise(None))
-nullif_df = nullif_df.withColumn("country", when(col("country") != "", col("country")).otherwise(None))
-
-# Rename Columns
-circuits_gold = nullif_df \
-    .withColumnRenamed("circuitID", "circuit_id") \
-    .withColumnRenamed("lat", "latitude") \
-    .withColumnRenamed("lng", "longitude") \
-    .withColumnRenamed("circuitName", "circuit_name")
-
-# Create surrogate key with identity key and order by circuit_id
-window_spec = Window.orderBy("circuit_id")
-circuits_gold = circuits_gold.withColumn("circuit_sk", row_number().over(window_spec))
-
-# Display the final DataFrame
-circuits_gold.show(truncate=False)
-
-# Save the DataFrame in Delta format to the destination
-circuits_gold.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/03-gold/circuits")
-
 
 ```python
 # Define the path to your Silver Layer data
