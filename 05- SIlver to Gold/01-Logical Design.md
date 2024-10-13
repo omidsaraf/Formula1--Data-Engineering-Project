@@ -1,30 +1,37 @@
+Logical Design:
+
+![image](https://github.com/user-attachments/assets/8aba51be-3dc2-4a5d-b598-3f924c2c6736)
+
+
 ## Dimension Tables:
 ---
 
 ### Circuits Dimension
-- circuitID: string
-- circuitName: string
+
+- circuit_sk: Integer
+- circuit_ID: string
+- circuit_Name: string
 - location: string
 - country: string
 - lat: double
 - lng: double
-- ingestion_date: timestamp
 
 ### Constructors Dimension
-- name: string
+
+- Constructor_sk: Integer
+- Constructor_name: string
 - nationality: string
-- url: string
-- ingestion_date: timestamp
 
 ### Drivers Dimension
+
+- driver_sk: Integer
 - full_name: string
 - dob: string
 - nationality: string
-- ingestion_date: timestamp
 
-## Fact Tables:
----
-### Races Fact
+
+### Races Dimension
+
 - race_id: integer
 - race_year: integer
 - name: string
@@ -32,6 +39,10 @@
 - circuit_id: string
 - race_timestamp: timestamp
 - ingestion_date: timestamp
+
+## Fact Tables:
+---
+
 
 ### Qualifying Fact
 - qualify_Id: integer
