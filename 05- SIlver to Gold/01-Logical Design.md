@@ -48,7 +48,6 @@ Logical Design:
 - round: integer
 - circuit_id: string
 - race_timestamp: timestamp
-- ingestion_date: timestamp
 
 ## Fact Tables:
 ---
@@ -64,7 +63,6 @@ Logical Design:
 - q3: string
 - DriverName: string
 - race_Id: integer
-- ingestion_date: timestamp
 
 ### Results Fact
 - season: integer
@@ -87,7 +85,6 @@ Logical Design:
 - fastest_LapNumber: integer
 - fastest_LapTime: string
 - average_Speed: double
-- ingestion_date: timestamp
 
 ## Instructions for Use
 1. **Ensure your Spark session is properly configured and running**.
