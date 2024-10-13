@@ -30,7 +30,7 @@ Logical Design:
 - nationality: string
 
 
-### Races Dimension
+### Races Dimension (snowflake with Circuits)
 
 - race_id: integer
 - race_year: integer
