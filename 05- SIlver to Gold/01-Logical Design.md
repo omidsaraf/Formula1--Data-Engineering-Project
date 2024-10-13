@@ -1,6 +1,6 @@
 Logical Design:
 
-## Data Frames - Initial Model
+## Data Frames - Initial Data Model
 
 ![image](https://github.com/user-attachments/assets/fffd1190-ed2f-46eb-8445-374698a4a873)
 
