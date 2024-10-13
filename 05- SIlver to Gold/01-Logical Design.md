@@ -1,6 +1,6 @@
 Logical Design:
 
-![image](https://github.com/user-attachments/assets/8aba51be-3dc2-4a5d-b598-3f924c2c6736)
+![Untitled](https://github.com/user-attachments/assets/b724ae10-7e2a-44ad-8f7e-3821baf173fc)
 
 
 ## Dimension Tables:
