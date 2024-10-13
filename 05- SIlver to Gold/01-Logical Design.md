@@ -2,7 +2,7 @@ Logical Design:
 
 ## Data Frames - Initial Data Model
 
-![image](https://github.com/user-attachments/assets/7910b2f1-183a-4d82-880f-1e62b65535e5)
+![image](https://github.com/user-attachments/assets/cd884135-a6d5-4b6b-9799-d82cf9355927)
 
 
 ## Data Frames - Data Warehouse Model
