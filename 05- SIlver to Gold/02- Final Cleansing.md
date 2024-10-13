@@ -84,7 +84,7 @@ display(Dim_Constructors )
 
 ## Drivers
 ````python
-# Define the path to your Silver Layer data
+# Define the path
 Path_Drivers = "/mnt/dldatabricks/02-silver/drivers/"
 
 # Read the Delta table into a DataFrame
@@ -103,18 +103,25 @@ Drivers_df=Drivers_df.dropDuplicates()
 nulls = Drivers_df.select([count(when(col(c).isNull(), c)).alias(c) for c in Drivers_df.columns]).toPandas()
 print(f"nulls:{nulls}")
 
+
 #Null Handling
 nullif_df = Drivers_df.withColumn("full_name", nullif(col("full_name"), lit("")))
 nullif_df = Drivers_df.withColumn("dob", nullif(col("dob"), lit("")))
 Modified_df = nullif_df.withColumn("nationality", nullif(col("nationality"), lit("")))
 
-#Rename Columns
-Dim_Drivers = Modified_df\
-    .select("full_name", "dob", "nationality")
+#Create surrogate key
+# window_spec = Window.orderBy("dob")
+#Modified_df = Modified_df.withColumn("driver_sk", row_number().over(window_spec))
 
-display(Dim_Drivers)
+#Rename Columns
+Drivers = Modified_df.withColumnRenamed("full_name", "driver_name")\
+    .withColumn("Age", (year(current_date()) - year(col("dob"))))\
+    .select("driver_name", "Age", "nationality","dob")\
+    .orderBy("driver_name")
+
+display(Drivers)
 `````
-![image](https://github.com/user-attachments/assets/e6b76641-bfe5-4a69-9cba-f7702f69f3f7)
+![image](https://github.com/user-attachments/assets/2d6f695f-e09f-44b9-881b-4b44542d2375)
 
 ## Races
 ````python
