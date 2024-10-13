@@ -82,5 +82,37 @@ display(Dim_Constructors )
 ````
 ![image](https://github.com/user-attachments/assets/fd3c6892-1c28-4b0c-ac46-03dfa688f163)
 
-## 
+## Drivers
+````python
+# Define the path to your Silver Layer data
+Path_Drivers = "/mnt/dldatabricks/02-silver/drivers/"
+
+# Read the Delta table into a DataFrame
+Drivers_df = spark.read.format("delta").load(Path_Drivers)
+Drivers_df = Drivers_df.drop('ingestion_date')
+
+
+# shows count of duplications
+duplicates = Drivers_df.count() - Drivers_df.dropDuplicates().count()
+print(f"Duplicates: {duplicates}")
+
+# Duplicate Handilging
+Drivers_df=Drivers_df.dropDuplicates()
+
+# shows count of nulls
+nulls = Drivers_df.select([count(when(col(c).isNull(), c)).alias(c) for c in Drivers_df.columns]).toPandas()
+print(f"nulls:{nulls}")
+
+#Null Handling
+nullif_df = Drivers_df.withColumn("full_name", nullif(col("full_name"), lit("")))
+nullif_df = Drivers_df.withColumn("dob", nullif(col("dob"), lit("")))
+Modified_df = nullif_df.withColumn("nationality", nullif(col("nationality"), lit("")))
+
+#Rename Columns
+Dim_Drivers = Modified_df\
+    .select("full_name", "dob", "nationality")
+
+display(Dim_Drivers)
+`````
+![image](https://github.com/user-attachments/assets/e6b76641-bfe5-4a69-9cba-f7702f69f3f7)
 
