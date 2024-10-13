@@ -1,6 +1,14 @@
 Logical Design:
 
-![Untitled](https://github.com/user-attachments/assets/b724ae10-7e2a-44ad-8f7e-3821baf173fc)
+## Data Frames - Initial Model
+
+![image](https://github.com/user-attachments/assets/fffd1190-ed2f-46eb-8445-374698a4a873)
+
+## Data Frames - Data Warehouse Model
+
+
+
+
 
 
 ## Dimension Tables:
