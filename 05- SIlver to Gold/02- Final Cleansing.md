@@ -44,4 +44,43 @@ display(Dim_Circuits)
 `````
 ![image](https://github.com/user-attachments/assets/e25a94a7-d25e-417e-8248-afc618f01f7b)
 
+## Constructors
+````python
+
+from pyspark.sql.types import *
+from pyspark.sql.functions import *
+
+# Define the path to your Silver Layer data
+Path_Constructors = "/mnt/dldatabricks/02-silver/constructors/"
+
+# Read the Delta table into a DataFrame
+Constructors_df = spark.read.format("delta").load(Path_Constructors)
+Constructors_df = Constructors_df.drop('ingestion_date')
+
+
+# shows count of duplications
+duplicates = Constructors_df.count() - Constructors_df.dropDuplicates().count()
+print(f"Duplicates: {duplicates}")
+
+# Duplicate Handilging
+Constructors_df=Constructors_df.dropDuplicates()
+
+# shows count of nulls
+nulls = Constructors_df.select([count(when(col(c).isNull(), c)).alias(c) for c in Constructors_df.columns]).toPandas()
+print(f"nulls:{nulls}")
+
+#Null Handling
+nullif_df = Constructors_df.withColumn("name", nullif(col("name"), lit("")))
+Modified_df = nullif_df.withColumn("nationality", nullif(col("nationality"), lit("")))
+
+#Rename Columns
+Dim_Constructors = Modified_df \
+    .withColumn("constructor_name", lower(col("name"))) \
+    .select("constructor_name", "nationality").drop("name")
+
+display(Dim_Constructors )
+````
+![image](https://github.com/user-attachments/assets/fd3c6892-1c28-4b0c-ac46-03dfa688f163)
+
 ## 
+
