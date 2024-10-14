@@ -22,6 +22,7 @@ constructors_bronze = constructors_df.select(
 )
 constructors_bronze= constructors_bronze.withColumn("ingestion_date", current_timestamp())
 
+
 # Add a row number to ensure uniqueness
 window_spec = Window.partitionBy("url").orderBy(col("ingestion_date").desc())
 constructors_bronze = constructors_bronze.withColumn("row_num", row_number().over(window_spec))
@@ -29,14 +30,22 @@ constructors_bronze = constructors_bronze.withColumn("row_num", row_number().ove
 # Filter to keep only the latest row for each url
 constructors_bronze = constructors_bronze.filter(col("row_num") == 1).drop("row_num")
 
+
 # Display the transformed DataFrame
-#constructors_bronze.display()
+constructors_bronze.display()
 
 # Write the DataFrame in Delta format to the destination
-constructors_bronze.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/02-silver/constructors")
+constructors_bronze.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.constructors")
+
+constructors_silver=spark.read.format("delta").load("/mnt/dldatabricks/02-silver/F1_Silver/constructors")
+constructors_silver.display()
+
 ````
-![image](https://github.com/user-attachments/assets/a62915e0-5959-4942-a465-dc244ed8faba)
-![image](https://github.com/user-attachments/assets/60290737-2f5e-4187-8257-f092fd244517)
+![image](https://github.com/user-attachments/assets/f0f08796-923f-433c-a929-f36f2277e758)
+
+![image](https://github.com/user-attachments/assets/8a5f32d0-9207-40fd-be45-e48ec4d9a7df)
+
+![image](https://github.com/user-attachments/assets/1cfca5d3-dd7a-4fb5-bace-59dd809a5c8f)
 
 
 ### Incremental Load
