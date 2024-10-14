@@ -1,5 +1,5 @@
 
-````
+````python
 #path
 Path_Qualifying = "/mnt/dldatabricks/02-silver/F1_Silver/qualifying/"
 
@@ -26,6 +26,7 @@ qualifying_df = qualifying_df.withColumnRenamed("name", "race_name")\
 
 display(qualifying_df)
 
-#Write to Gold Layer (Partitioning by race_year)
-qualifying_df.write.format("delta").partitionBy("race_year").mode("append").saveAsTable("F1_Gold.qualifying")
+#Write to Gold Layer
+qualifying_df.write.format("delta").mode("append").saveAsTable("F1_Gold.qualifying")
 `````
+![image](https://github.com/user-attachments/assets/90b7a2a5-a104-4bc5-ad51-08ba73e0f8b4)
