@@ -19,13 +19,16 @@ def save_json(data, file_path):
         json.dump(data, f, indent=2)
 
 # Define API endpoints for different data
+
+year=2024
+
 endpoints = {
-    "qualifying": "http://ergast.com/api/f1/current/qualifying.json",
-    "circuits": "http://ergast.com/api/f1/current/circuits.json",
-    "constructors": "http://ergast.com/api/f1/current/constructors.json",
-    "drivers": "http://ergast.com/api/f1/current/drivers.json",
-    "races": "http://ergast.com/api/f1/current/races.json",
-    "results": "https://ergast.com/api/f1/current/results.json"
+    "qualifying": f"http://ergast.com/api/f1/{year}/qualifying.json",
+    "circuits": f"http://ergast.com/api/f1/{year}/circuits.json",
+    "constructors": f"http://ergast.com/api/f1/{year}/constructors.json",
+    "drivers": f"http://ergast.com/api/f1/{year}/drivers.json",
+    "races": f"http://ergast.com/api/f1/{year}/races.json",
+    "results": f"https://ergast.com/api/f1/{year}/results.json"
 }
 
 key_mapping = {
@@ -51,6 +54,7 @@ for name, url in endpoints.items():
         saved_data = json.load(f)
         print(f"{name.capitalize()} latest data saved to {file_path}")
         print(json.dumps(saved_data, indent=2))
+
 
 ````
 ````json
