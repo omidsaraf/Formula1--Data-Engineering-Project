@@ -1,3 +1,7 @@
+Races is Transactional Table needs:
+- Append mode
+- Incremental mode via upsert
+
 #### Initial Load
 ````python
 
