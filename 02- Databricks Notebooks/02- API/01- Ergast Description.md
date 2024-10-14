@@ -17,7 +17,7 @@ for year in years:
     for Subject in Subjects:
         # Correct indentation for the print statement
         print(f"http://ergast.com/api/f1/{year}/{Subject}.json")
-
+````
 ````html
 http://ergast.com/api/f1/2020/qualifying.json
 http://ergast.com/api/f1/2020/circuits.json
