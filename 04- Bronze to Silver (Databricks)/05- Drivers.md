@@ -4,10 +4,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, explode, concat_ws, current_timestamp
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
-# Create a Spark session
-spark = SparkSession.builder \
-    .appName("Read Drivers JSON") \
-    .getOrCreate()
 
 # Define the path to your JSON file
 drivers_path = '/mnt/dldatabricks/01-bronze/*/drivers.json'
@@ -35,16 +31,20 @@ drivers_bronze= drivers_bronze.withColumn("ingestion_date", current_timestamp())
 
 
 # Write the DataFrame in Delta format to the destination
-drivers_bronze.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/02-silver/drivers")
+drivers_bronze.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.drivers")
 
-# Display the transformed DataFrame
-drivers_silver= spark.read.format("delta").load("/mnt/dldatabricks/02-silver/drivers")
-display(drivers_silver)
+# Display
+drivers_silver=spark.read.format("delta").load("/mnt/dldatabricks/02-silver/F1_Silver/drivers")
+drivers_silver.display()
 ````
-![image](https://github.com/user-attachments/assets/092b3a06-7261-412f-91b8-17587db7f43a)
-![image](https://github.com/user-attachments/assets/3f0b7c12-a1fa-4a7e-8050-4d871f4bbd1c)
+![image](https://github.com/user-attachments/assets/a23c9a73-394a-4f34-81e7-8ba40b3d4f62)
 
-### Full Load
+![image](https://github.com/user-attachments/assets/59702c4f-3484-426e-afd2-17c07e5cf3cd)
+
+![image](https://github.com/user-attachments/assets/7a4b1d8d-72cd-433f-9257-6cf95f4c2514)
+
+
+### Incremental Load
 ````python
 
 # drivers
