@@ -94,9 +94,3 @@ The Ergast Formula 1 Project is designed to provide a robust and scalable data p
 - **Monitoring**: Set up monitoring and alerting mechanisms for pipelines.
 - **Documentation**: Maintain comprehensive documentation for each step of the process.
 
-
-
-
-Master Pipeline is triggered:
- #
- 
