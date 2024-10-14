@@ -16,6 +16,32 @@ display(races)
 ````python
 from pyspark.sql.functions import concat, col, lit, to_timestamp, current_timestamp
 
+# races table
+races_path='/mnt/dldatabricks/01-bronze/*/races.json'
+
+from pyspark.sql.functions import *
+from pyspark.sql.types import IntegerType, StringType, StructField, StructType, DateType
+
+# Read the JSON file into a DataFrame
+df = spark.read.json(races_path, multiLine=True)
+
+# Explode the nested Races array
+races_df = df.select(explode(col("MRData.RaceTable.Races")).alias("race"))
+
+# Extract required fields and add raceId
+races_bronze = races_df.select(
+    monotonically_increasing_id().cast(IntegerType()).alias("raceId"),  # Generate unique raceId
+    col("race.season").cast(IntegerType()).alias("year"),
+    col("race.round").cast(IntegerType()).alias("round"),
+    col("race.Circuit.circuitId").alias("circuitId"),
+    col("race.raceName").alias("name"),
+    col("race.date").cast(DateType()).alias("date"),
+    regexp_replace(col("race.time"), "Z$", "").alias("time"),  # Remove 'Z' at the end of time
+    col("race.url").alias("url")
+)
+
+# Display the transformed DataFrame
+#races_bronze.display()
 # Process the DataFrame
 races_silver = races_bronze \
     .withColumnRenamed('year', 'race_year') \
@@ -27,7 +53,9 @@ races_silver = races_bronze \
     .select('race_id', 'race_year', 'name', 'round', 'circuit_id', 'race_timestamp', 'ingestion_date')
 
 # Write the DataFrame in Delta format to the destination
-races_silver.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/02-silver/races")
+
+races_silver.write.format("delta").mode("overwrite").option("path", "/mnt/dldatabricks/01-silver/races").saveAsTable("f1_bronze.races")
+
 `````
 ![image](https://github.com/user-attachments/assets/f534704b-c14b-46d0-8c3e-1a5b73b23632)
 
