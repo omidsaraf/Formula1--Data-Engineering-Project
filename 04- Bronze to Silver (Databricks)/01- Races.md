@@ -43,7 +43,7 @@ races_silver = races_bronze \
 
 # Write the DataFrame in Delta format to the destination
 
-races_silver.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.Races")
+races_silver.write.format("delta").mode("append").saveAsTable("F1_Silver.Races")
 
 `````
 ![image](https://github.com/user-attachments/assets/7e609ee6-7a93-4c9f-96b6-43b107e57fc6)
