@@ -50,18 +50,17 @@ window_spec = Window.partitionBy("circuitID").orderBy(col("ingestion_date").desc
 circuits_bronze = circuits_bronze.withColumn("row_num", row_number().over(window_spec))
 
 # Filter to keep only the latest row for each circuitID
-circuits_bronze = circuits_bronze.filter(col("row_num") == 1).drop("row_num")
+circuits_silver = circuits_bronze.filter(col("row_num") == 1).drop("row_num")
 
 # Write the DataFrame in Delta format to the destination
-races_silver.write.format("delta").mode("overwrite").option("path", "/mnt/dldatabricks/02-silver/circuits").saveAsTable("f1_bronze.circuits")
-
-# Display the transformed DataFrame
-circuits_silver=spark.read.format("delta").load("/mnt/dldatabricks/02-silver/circuits")
-circuits_silver.display()
+circuits_silver.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.circuits")
 `````
-![image](https://github.com/user-attachments/assets/eaf92c0e-be9f-4869-9656-fbf955cbd861)
+![image](https://github.com/user-attachments/assets/96ad5b23-3712-4623-a8d3-ce87d274df07)
 
-![image](https://github.com/user-attachments/assets/30103555-86ae-4f82-bccf-289541b1a883)
+![image](https://github.com/user-attachments/assets/5af0df56-1277-4d5b-9c07-a53c37da5981)
+
+![image](https://github.com/user-attachments/assets/6ee53504-221a-4245-8bbf-6b0bfdc70bf5)
+
 
 ### Incremental Load
 
