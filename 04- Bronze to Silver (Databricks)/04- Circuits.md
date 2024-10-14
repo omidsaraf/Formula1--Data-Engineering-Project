@@ -53,7 +53,7 @@ circuits_bronze = circuits_bronze.withColumn("row_num", row_number().over(window
 circuits_silver = circuits_bronze.filter(col("row_num") == 1).drop("row_num")
 
 # Write the DataFrame in Delta format to the destination
-circuits_silver.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.circuits")
+circuits_silver.write.format("delta").mode("append").saveAsTable("F1_Silver.circuits")
 `````
 ![image](https://github.com/user-attachments/assets/96ad5b23-3712-4623-a8d3-ce87d274df07)
 
@@ -65,58 +65,58 @@ circuits_silver.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.c
 ### Incremental Load
 
 ````python
-# circuits
-
+from pyspark.sql import *
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
 from delta.tables import DeltaTable
-from pyspark.sql.functions import col, explode, current_timestamp, row_number
-from pyspark.sql.window import Window
 
-# Load the existing Delta table
-delta_table = DeltaTable.forPath(spark, "/mnt/dldatabricks/02-silver/circuits")
+# Define paths
+circuits_path = '/mnt/dldatabricks/01-bronze/*/circuits.json'
 
-# Define the path to new incremental JSON file
-incremental_path = '/mnt/dldatabricks/01-bronze/*/circuits.json'
-
-# Read the new data from the JSON file into a DataFrame
-incremental_df = spark.read.json(incremental_path, multiLine=True)
+# Read the JSON file into a DataFrame
+df = spark.read.json(circuits_path, multiLine=True)
 
 # Explode the nested Circuits array
-circuits_df_new = incremental_df.select(explode(col("MRData.CircuitTable.Circuits")).alias("circuit"))
+circuits_df = df.select(explode(col("MRData.CircuitTable.Circuits")).alias("circuit"))
 
 # Extract required fields
-circuits_incremental = circuits_df_new.select(
+circuits_bronze = circuits_df.select(
     col("circuit.circuitId").alias("circuitID"),
     col("circuit.circuitName").alias("circuitName"),
     col("circuit.Location.locality").alias("location"),
     col("circuit.Location.country").alias("country"),
     col("circuit.Location.lat").cast(DoubleType()).alias("lat"),
     col("circuit.Location.long").cast(DoubleType()).alias("lng"),
-    lit(None).cast(IntegerType()).alias("alt"),  # Altitude placeholder
     col("circuit.url").alias("url")
 )
-circuits_incremental = circuits_incremental.withColumn("ingestion_date", current_timestamp())
 
-# Add a row number to each row to ensure uniqueness
-window_spec = Window.partitionBy("circuitID").orderBy(col("ingestion_date").desc())
-circuits_incremental = circuits_incremental.withColumn("row_num", row_number().over(window_spec))
+# Deduplicate the source data
+circuits_bronze_dedup = circuits_bronze.dropDuplicates(["circuitID"])
 
-# Filter to keep only the latest row for each circuitID
-circuits_incremental = circuits_incremental.filter(col("row_num") == 1).drop("row_num")
+# Process the new DataFrame
+circuits_bronze_new_processed = circuits_bronze_dedup \
+    .withColumn("ingestion_date", current_timestamp()) \
+    .drop("url") \
+    .select("circuitID", "circuitName", "location", "country", "lat", "lng", "ingestion_date")
+
+# Load the existing Delta table
+delta_table = DeltaTable.forPath(spark, "/mnt/dldatabricks/02-silver/F1_Silver/circuits")
 
 # Perform the merge (upsert) operation
 delta_table.alias("existing") \
     .merge(
-        circuits_incremental.alias("new"),
-        "existing.circuitID = new.circuitID"
+        circuits_bronze_new_processed.alias("new"),
+        "existing.circuitID = new.circuitID AND existing.country = new.country"
     ) \
     .whenMatchedUpdateAll() \
     .whenNotMatchedInsertAll() \
     .execute()
 
-# Display the merged data
-merged_data = spark.read.format("delta").load("/mnt/dldatabricks/02-silver/circuits")
+# Read and display the merged data
+merged_data = spark.read.format("delta").load("/mnt/dldatabricks/02-silver/F1_Silver/circuits")
 merged_data.display()
 ````
-![image](https://github.com/user-attachments/assets/c0a45ed4-33f7-41a0-9e92-e5a99657c771)
+![image](https://github.com/user-attachments/assets/2ab5af82-e25a-4212-b121-2ddfb4931e46)
 
-![image](https://github.com/user-attachments/assets/1fe98648-9cf1-414b-aa76-cdb632836c45)
+![image](https://github.com/user-attachments/assets/8804e5e7-9e8e-4ff9-a78b-7eba4ba92e9c)
+
