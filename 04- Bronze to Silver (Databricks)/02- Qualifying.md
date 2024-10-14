@@ -48,33 +48,29 @@ display(qualifying_silver)
 
 ### Incremantal Load
 ````python
-#qualifying
-
-from delta.tables import DeltaTable
+from pyspark.sql import *
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
+from delta.tables import DeltaTable
 
-# Load the existing Delta table
-delta_table = DeltaTable.forPath(spark, "/mnt/dldatabricks/02-silver/qualifying")
+# Define paths
+qualifying_path = '/mnt/dldatabricks/01-bronze/*/qualifying.json'
 
-# Define the path to new incremental JSON file
-incremental_path = '/mnt/dldatabricks/01-bronze/*/qualifying.json'
-
-# Read the new data from the JSON file into a DataFrame
-incremental_df = spark.read.json(incremental_path, multiLine=True)
+# Read the JSON file into a DataFrame
+df = spark.read.json(qualifying_path, multiLine=True)
 
 # Explode the nested Races array
-races_df_new = incremental_df.select(explode(col("MRData.RaceTable.Races")).alias("race"))
+races_df = df.select(explode(col("MRData.RaceTable.Races")).alias("race"))
 
 # Explode the nested QualifyingResults array within each race
-qualifying_df_new = races_df_new.select(
+qualifying_df = races_df.select(
     col("race.Circuit.circuitId").alias("circuitId"),
     col("race.round").alias("round"),
     explode(col("race.QualifyingResults")).alias("qualifying")
 )
 
-# Extract required fields and generate unique IDs for qualifyId and raceId
-qualifying_incremental = qualifying_df_new.select(
+# Extract required fields and generate unique IDs for qualifyId
+qualifying_bronze = qualifying_df.select(
     monotonically_increasing_id().cast(IntegerType()).alias("qualify_Id"),  # Generate unique qualifyId
     col("qualifying.Constructor.constructorId").alias("constructor_Id"),
     col("qualifying.number").cast(IntegerType()).alias("number"),
@@ -86,20 +82,29 @@ qualifying_incremental = qualifying_df_new.select(
     monotonically_increasing_id().cast(IntegerType()).alias("race_Id")  # Generate unique raceId
 )
 
-qualifying_incremental=qualifying_incremental.withColumn("ingestion_date", current_timestamp())
+# Deduplicate the source data
+qualifying_bronze_dedup = qualifying_bronze.dropDuplicates(["qualify_Id"])
+
+# Process the new DataFrame
+qualifying_bronze_new_processed = qualifying_bronze_dedup \
+    .withColumn("ingestion_date", current_timestamp()) \
+    .select("qualify_Id", "constructor_Id", "number", "position", "q1", "q2", "q3", "DriverName", "race_Id", "ingestion_date")
+
+# Load the existing Delta table
+delta_table = DeltaTable.forPath(spark, "/mnt/dldatabricks/02-silver/F1_Silver/qualifying")
 
 # Perform the merge (upsert) operation
 delta_table.alias("existing") \
     .merge(
-        qualifying_incremental.alias("new"),
-        "existing.qualify_Id = new.qualify_Id"
+        qualifying_bronze_new_processed.alias("new"),
+        "existing.qualify_Id = new.qualify_Id AND existing.q1 = new.q1 AND existing.q2 = new.q2"
     ) \
     .whenMatchedUpdateAll() \
     .whenNotMatchedInsertAll() \
     .execute()
 
-# Display the merged data
-merged_data = spark.read.format("delta").load("/mnt/dldatabricks/02-silver/qualifying")
+# Read and display the merged data
+merged_data = spark.read.format("delta").load("/mnt/dldatabricks/02-silver/F1_Silver/qualifying")
 merged_data.display()
 
 ````
