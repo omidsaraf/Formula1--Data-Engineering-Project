@@ -58,6 +58,7 @@ races_silver.write.format("delta").mode("overwrite").option("path", "/mnt/dldata
 
 `````
 ![image](https://github.com/user-attachments/assets/f534704b-c14b-46d0-8c3e-1a5b73b23632)
+![image](https://github.com/user-attachments/assets/2bf376b7-dc9a-414b-b4c5-8f80ea2738e9)
 
 
 ### Incremental load (**seperated notebook for ADF Pipeline**)- Incremental Load
