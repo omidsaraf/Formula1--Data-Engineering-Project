@@ -1,4 +1,4 @@
-
+Requires Incremental Load with Append mode Write
 ````python
 #path
 Path_Qualifying = "/mnt/dldatabricks/02-silver/F1_Silver/qualifying/"
