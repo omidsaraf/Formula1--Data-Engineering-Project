@@ -1,16 +1,5 @@
 ### Transformations
 ````python
-races = races_bronze\
-        .withColumnRenamed('year', 'race_year') \
-        .withColumnRenamed('circuitId', 'circuit_id') \
-        .withColumnRenamed('raceId', 'race_id') \
-        .withColumn("race_timestamp", to_timestamp(concat(col('date'), lit(' '), col('time')), 'yyyy-MM-dd HH:mm:ss')) \
-        .drop('url', 'date', 'time') \
-        .withColumn("ingestion_date", current_timestamp()) \
-        .select('race_id', 'race_year', 'name', 'round', 'circuit_id','race_timestamp', 'ingestion_date')
-display(races)
-````
-![image](https://github.com/user-attachments/assets/dc72043e-45e0-4978-bf08-e04e30ac1502)
 
 ### Write Data as Delta Table (Initial Load)
 ````python
@@ -54,12 +43,16 @@ races_silver = races_bronze \
 
 # Write the DataFrame in Delta format to the destination
 
-races_silver.write.format("delta").mode("overwrite").option("path", "/mnt/dldatabricks/01-silver/races").saveAsTable("f1_bronze.races")
+races_silver.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.Races")
 
 `````
-![image](https://github.com/user-attachments/assets/f534704b-c14b-46d0-8c3e-1a5b73b23632)
-![image](https://github.com/user-attachments/assets/2bf376b7-dc9a-414b-b4c5-8f80ea2738e9)
+![image](https://github.com/user-attachments/assets/7e609ee6-7a93-4c9f-96b6-43b107e57fc6)
 
+![image](https://github.com/user-attachments/assets/37495593-cfe4-41e3-bb3c-a3155800cd0c)
+
+![image](https://github.com/user-attachments/assets/3ce7ff87-08b6-4402-a688-986c52c12a2e)
+
+![image](https://github.com/user-attachments/assets/0803271b-ecd9-48de-bf70-38d36feba5d1)
 
 ### Incremental load (**seperated notebook for ADF Pipeline**)- Incremental Load
 
