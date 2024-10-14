@@ -1,4 +1,4 @@
-
+Full Load only as all possible new records has been added into circuit silver layer and only required overwrite data here
 ````python
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
