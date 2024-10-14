@@ -1,3 +1,5 @@
+
+
 ### Full Load
 ````python
 from pyspark.sql import *
