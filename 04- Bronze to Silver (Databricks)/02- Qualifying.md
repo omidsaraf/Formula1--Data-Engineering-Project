@@ -3,11 +3,6 @@
 ````python
 from pyspark.sql.functions import col, explode, lit, monotonically_increasing_id, concat_ws
 
-# Create a Spark session
-spark = SparkSession.builder \
-    .appName("Read Qualifying JSON") \
-    .getOrCreate()
-
 # Define the path to your JSON file
 qualifying_path = '/mnt/dldatabricks/01-bronze/*/qualifying.json'
 
@@ -39,7 +34,7 @@ qualifying_bronze = qualifying_df.select(
 qualifying_bronze=qualifying_bronze.withColumn("ingestion_date", current_timestamp())
 
 # Write the DataFrame in Delta format to the destination
-qualifying_bronze.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.qualifying")
+qualifying_bronze.write.format("delta").mode("append").saveAsTable("F1_Silver.qualifying")
 
 qualifying_silver=spark.read.format("delta").load("/mnt/dldatabricks/02-silver/F1_Silver/qualifying")
 display(qualifying_silver)
