@@ -15,6 +15,26 @@ circuits_df = df.select(explode(col("MRData.CircuitTable.Circuits")).alias("circ
 
 # Extract required fields
 circuits_bronze = circuits_df.select(
+    col("circuit.circuitId").alias("circuit_ID"),
+    col("circuit.circuitName").alias("circuit_Name"),
+    col("circuit.Location.locality").alias("location"),
+    col("circuit.Location.country").alias("country"),
+    col("circuit.Location.lat").cast(DoubleType()).alias("lat"),
+    col("circuit.Location.long").cast(DoubleType()).alias("lng"),
+    col("circuit.url").alias("url")
+)
+
+# Define the path to your JSON file
+circuits_path = '/mnt/dldatabricks/01-bronze/*/circuits.json'
+
+# Read the JSON file into a DataFrame
+df = spark.read.json(circuits_path, multiLine=True)
+
+# Explode the nested Circuits array
+circuits_df = df.select(explode(col("MRData.CircuitTable.Circuits")).alias("circuit"))
+
+# Extract required fields
+circuits_bronze = circuits_df.select(
     col("circuit.circuitId").alias("circuitID"),
     col("circuit.circuitName").alias("circuitName"),
     col("circuit.Location.locality").alias("location"),
@@ -33,7 +53,7 @@ circuits_bronze = circuits_bronze.withColumn("row_num", row_number().over(window
 circuits_bronze = circuits_bronze.filter(col("row_num") == 1).drop("row_num")
 
 # Write the DataFrame in Delta format to the destination
-circuits_bronze.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/02-silver/circuits")
+races_silver.write.format("delta").mode("overwrite").option("path", "/mnt/dldatabricks/02-silver/circuits").saveAsTable("f1_bronze.circuits")
 
 # Display the transformed DataFrame
 circuits_silver=spark.read.format("delta").load("/mnt/dldatabricks/02-silver/circuits")
