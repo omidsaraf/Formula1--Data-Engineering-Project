@@ -19,7 +19,7 @@ for year in years:
         print(f"http://ergast.com/api/f1/{year}/{Subject}.json")
     print (f" all files for {year} has been returned")
 ````
-##### output
+##### output (for 2021 only):
 
 http://ergast.com/api/f1/2021/qualifying.json
 
