@@ -16,3 +16,10 @@
 ![image](https://github.com/user-attachments/assets/d580f723-e495-471f-bdbd-6ac49b52eace)
 
 ![image](https://github.com/user-attachments/assets/eee7bd64-e5e4-4765-81b6-159c90df259e)
+
+
+### Gold Zone
+---
+![image](https://github.com/user-attachments/assets/55f741c5-1ea1-4255-97ab-e8d40d0ccb18)
+![image](https://github.com/user-attachments/assets/b712db7f-04f7-46f4-9db6-71704c81888f)
+![image](https://github.com/user-attachments/assets/8fdd262b-09e5-4a8e-952d-592331f13ece)
