@@ -1,6 +1,5 @@
-
-
 # Ergast Formula 1 Data Engineering Project
+![image](https://github.com/user-attachments/assets/e4f5e60c-e284-457e-ad96-311f782bbe62)
 
 ## Project Purpose
 
