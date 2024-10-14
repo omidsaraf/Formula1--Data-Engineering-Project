@@ -1,5 +1,5 @@
 ### Data Source:
-
+-------
 The Ergast Formula 1 Data Engineering Project demonstrates a modern approach to data engineering, utilizing the latest tools and best practices to deliver high-quality, actionable data. By following a structured ETL workflow, leveraging Azure's capabilities, and enabling advanced analytics with Databricks and Power BI, this project serves as a robust foundation for data-driven insights in the world of Formula 1 racing.
 ---
 #### Main:
