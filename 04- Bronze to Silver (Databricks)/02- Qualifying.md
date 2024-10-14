@@ -36,20 +36,20 @@ qualifying_bronze = qualifying_df.select(
     concat_ws(" ", col("qualifying.Driver.givenName"), col("qualifying.Driver.familyName")).alias("DriverName"),  # Combine names as DriverName
     monotonically_increasing_id().cast(IntegerType()).alias("race_Id")  # Generate unique raceId
 )
-
 qualifying_bronze=qualifying_bronze.withColumn("ingestion_date", current_timestamp())
 
 # Write the DataFrame in Delta format to the destination
-qualifying_bronze.write.format("delta").mode("overwrite").save("/mnt/dldatabricks/02-silver/qualifying")
+qualifying_bronze.write.format("delta").mode("overwrite").saveAsTable("F1_Silver.qualifying")
 
-qualifying_silver=spark.read.format("delta").load("/mnt/dldatabricks/02-silver/qualifying")
+qualifying_silver=spark.read.format("delta").load("/mnt/dldatabricks/02-silver/F1_Silver/qualifying")
 display(qualifying_silver)
 
 ````
-![image](https://github.com/user-attachments/assets/4a1b9dcb-7f44-47d9-81b3-35f7359d8a0a)
+![image](https://github.com/user-attachments/assets/1a6a4691-4636-444c-9486-fdf7fd6c35dd)
 
+![image](https://github.com/user-attachments/assets/a35f4aae-5fe1-4cad-9003-e43e93c85480)
 
-
+![image](https://github.com/user-attachments/assets/f06d8a13-7acb-4b1f-952a-3663acae3ccc)
 
 ### Incremantal Load
 ````python
