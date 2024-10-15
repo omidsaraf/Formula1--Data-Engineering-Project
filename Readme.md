@@ -73,7 +73,7 @@ The Ergast Formula 1 Project is designed to provide a robust and scalable data p
   - Set up service principals and configure Azure Key Vault for secrets management.
   - Mount storage and configure access shares for the Databricks cluster.
   - Run and test pipelines using ADF with scheduled triggers.
-https://github.com/omidsaraf/Formula1--Data-Engineering-Project/blob/main/01-Setup/01-%20Azure%20Resources.md
+![376177636-6dfc1021-181c-451a-ab21-aeb13bcc3f40](https://github.com/user-attachments/assets/70628d9e-cd98-4982-9909-feb7709168b4)
 ![image](https://github.com/user-attachments/assets/c7bdd929-6b85-4a00-a491-8eba0cc51b7f)
 
 ### 7. Data Visualization and Insights
