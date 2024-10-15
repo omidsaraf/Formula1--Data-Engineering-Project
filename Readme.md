@@ -1,6 +1,7 @@
 # Formula 1 Data Engineering Project
 ![image](https://github.com/user-attachments/assets/c0c07ab1-fd2c-4711-a414-5f56004a3c2c)
-![image](https://github.com/user-attachments/assets/c19da13a-09ba-4338-b690-3b7ca43d12f9)
+![image](https://github.com/user-attachments/assets/b6a3e93e-0923-44f6-808a-1092f3a6ec18)
+
 
 
 ![real Formula 1 car with data engineering elements in real colors](https://github.com/user-attachments/assets/b9ea86dd-2c6d-401a-a5e7-11dab303cfae)
