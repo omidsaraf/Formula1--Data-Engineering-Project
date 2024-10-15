@@ -1,12 +1,6 @@
 # Formula 1 Data Engineering Project
 ![image](https://github.com/user-attachments/assets/c0c07ab1-fd2c-4711-a414-5f56004a3c2c)
 ![image](https://github.com/user-attachments/assets/b6a3e93e-0923-44f6-808a-1092f3a6ec18)
-
-
-
-![real Formula 1 car with data engineering elements in real colors](https://github.com/user-attachments/assets/b9ea86dd-2c6d-401a-a5e7-11dab303cfae)
-
-
 ## Project Purpose
 
 The Ergast Formula 1 Project is designed to provide a robust and scalable data pipeline for ingesting, transforming, and analyzing Formula 1 racing data. This project leverages modern data engineering practices, including incremental data ingestion, ETL (Extract, Transform, Load) pipelines, and Delta Lake for efficient data storage and querying. The primary goal is to enable data analysts and data scientists to derive actionable insights and perform advanced analytics on Formula 1 data using tools like Databricks and Power BI.
